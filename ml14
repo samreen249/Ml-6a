@@ -1,0 +1,14 @@
+import numpy as np 
+import matplotlib.pyplot as plt 
+from sklearn.mixture import GaussianMixture 
+from sklearn.datasets import make_blobs 
+X, y = make_blobs(n_samples=200, centers=3, cluster_std=1.5, random_state=42) 
+gmm = GaussianMixture(n_components=3, random_state=42) 
+gmm.fit(X) 
+labels = gmm.predict(X) 
+plt.scatter(X[:, 0], X[:, 1], c=labels) 
+plt.title("EM Based Clustering (GMM)") 
+plt.show() 
+print("Means of clusters:") 
+print(gmm.means_) 
+print("\nLog Likelihood:", gmm.score(X)) 
