@@ -1,0 +1,37 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+# Load dataset
+data = pd.read_csv("D:\Machine learning\diabetes.csv")
+# Separate input and output
+X = data.drop("Outcome", axis=1)
+y = data["Outcome"]
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+ X, y, test_size=0.3, random_state=42)
+# Create and train model
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+# -------- USER INPUT --------
+print("Enter the following medical details:")
+preg = int(input("Pregnancies: "))
+glucose = float(input("Glucose: "))
+bp = float(input("Blood Pressure: "))
+skin = float(input("Skin Thickness: "))
+insulin = float(input("Insulin: "))
+bmi = float(input("BMI: "))
+dpf = float(input("Diabetes Pedigree Function: "))
+age = int(input("Age: "))
+# Create input list
+user_input = [[preg, glucose, bp, skin, insulin, bmi, dpf, age]]
+# Prediction
+prediction = rf.predict(user_input)
+# Result
+if prediction[0] == 1:
+ print("Prediction: Diabetic")
+else:
+ print("Prediction: Non-Diabetic")
+y_test_pred = rf.predict(X_test)
+accuracy = accuracy_score(y_test, y_test_pred) * 100
+print("The Random Forest algorithm for classification Model Accuracy:", accuracy, "%")
