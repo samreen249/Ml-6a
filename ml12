@@ -1,0 +1,18 @@
+import numpy as np 
+import matplotlib.pyplot as plt 
+from sklearn.cluster import KMeans 
+from sklearn.datasets import make_blobs  
+X, y = make_blobs(n_samples=200, centers=4, random_state=42)  
+K_values = [1, 2, 3, 4, 5, 6] 
+wcss = []  
+for k in K_values: 
+    kmeans = KMeans(n_clusters=k, random_state=42) 
+    kmeans.fit(X) 
+    wcss.append(kmeans.inertia_)   # inertia_ = WCSS  
+for i in range(len(K_values)): 
+    print("K =", K_values[i], "WCSS =", wcss[i]) 
+plt.plot(K_values, wcss, marker='o') 
+plt.xlabel("Number of Clusters (K)") 
+plt.ylabel("WCSS") 
+plt.title("Elbow Method") 
+plt.show() 
