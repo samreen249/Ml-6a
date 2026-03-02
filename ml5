@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeRegressor
+data = float(input("Enter the house size in sq.ft: "))
+# Dataset
+X = np.array([[500], [800], [1000], [1200], [1500], [1800]])
+y = np.array([15, 25, 35, 45, 60, 75])
+# Create Decision Tree Regressor
+model = DecisionTreeRegressor(max_depth=3)
+model.fit(X, y)
+# Test data
+test_size = np.array([[data]])
+prediction = model.predict(test_size)
+print("Predicted Price for 1300 sq.ft house:", prediction[0], "Lakhs")
+# Plot
+plt.scatter(X, y)
+plt.scatter(test_size, prediction, marker='*')
+plt.xlabel("House Size (sq.ft)")
+plt.ylabel("Price (Lakhs)")
+plt.title("Decision Tree Regression")
+plt.show()
