@@ -1,0 +1,33 @@
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error
+# Step 2: Load Dataset
+data = pd.read_csv("C:\\Users\\avenk\\Downloads\\diabetes.csv")
+# Step 3: Select Independent and Dependent Variables
+X = data[['BMI']] # Independent Variable
+Y = data['Glucose'] # Dependent Variable
+# Step 4: Split Dataset
+X_train, X_test, Y_train, Y_test = train_test_split(
+ X, Y, test_size=0.2, random_state=42)
+# Step 5: Create Model
+model = LinearRegression()
+# Step 6: Train Model
+model.fit(X_train, Y_train)
+# Step 7: Make Predictions
+Y_pred = model.predict(X_test)
+# Step 8: Evaluation
+print("Intercept:", model.intercept_)
+print("Slope:", model.coef_[0])
+print("R2 Score:", r2_score(Y_test, YO)
+print("Mean Squared Error:", mean_squared_error(Y_test, Y_pred))
+# Visualization
+plt.scatter(X_test, Y_test)
+plt.plot(X_test, Y_pred)
+plt.xlabel("BMI")
+plt.ylabel("Glucose")
+plt.title("Simple Linear Regression")
+plt.show()
