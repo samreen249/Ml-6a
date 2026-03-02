@@ -1,0 +1,35 @@
+import numpy as np 
+import matplotlib.pyplot as plt 
+from sklearn.datasets import make_blobs 
+X, _ = make_blobs(n_samples=150, centers=3, random_state=42)  
+n_clusters = 3 
+m = 2 
+max_iter = 100 
+n = X.shape[0]  
+U = np.random.dirichlet(np.ones(n_clusters), size=n) 
+for _ in range(max_iter):  
+    centers = [] 
+    for j in range(n_clusters): 
+        numerator = np.sum((U[:, j] ** m).reshape(-1, 1) * X, axis=0) 
+        denominator = np.sum(U[:, j] ** m) 
+        centers.append(numerator / denominator) 
+    centers = np.array(centers) 
+    new_U = np.zeros_like(U) 
+    for i in range(n): 
+        for j in range(n_clusters): 
+            dist = np.linalg.norm(X[i] - centers[j]) 
+            sum_term = 0 
+            for k in range(n_clusters): 
+                dist_k = np.linalg.norm(X[i] - centers[k]) 
+                sum_term += (dist / dist_k) ** (2 / (m - 1)) 
+            new_U[i, j] = 1 / sum_term 
+    if np.linalg.norm(new_U - U) < 0.001: 
+        break 
+    U = new_U  
+labels = np.argmax(U, axis=1)  
+plt.scatter(X[:, 0], X[:, 1], c=labels) 
+plt.scatter(centers[:, 0], centers[:, 1], marker='X', s=200) 
+plt.title("Fuzzy C-Means (Without skfuzzy)") 
+plt.show() 
+print("Cluster Centers:") 
+print(centers) 
